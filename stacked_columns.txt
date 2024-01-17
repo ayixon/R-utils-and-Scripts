@@ -1,0 +1,74 @@
+
+###PARA HACER UN GRÁFO DE COLUMNNAS APILADAS DESDE UN EXCEL CON EL SIGUENTE FORMATO:
+ 
+# Install and load required packages
+install.packages(c("readxl", "ggplot2", "tidyr"))
+library(readxl)
+library(ggplot2)
+library(tidyr)
+
+# Visualizar la tabl ay su formato correcto
+read_excel("ruta/a/tu/archivo.xlsx", sheet = "Sheet1")
+
+# A tibble: 106 × 6
+   Taxa                  Cue     Nat   PTAR PUrrutia Tezhuilo
+   <chr>               <dbl>   <dbl>  <dbl>    <dbl>    <dbl>
+ 1 Synechococcus      3.15    0.255  2.50     0       27.9
+ 2 Arcobacter         0.0160  0.0190 0       32.9      0
+ 3 Guyparkeria       14.1     2.80   6.89     0        0.0610
+ 4 Mycolicibacterium  2.38    2.53   3.86     0       10.2
+ 5 Flavobacterium     2.39    7.80   4.44     0.0560   3.78
+ 6 Comamonas          0.281  15.6    0.401    0.966    0.225
+ 7 Bacteroides        0       0      0.0390  14.3      0
+ 8 Mycobacterium      0.940   2.10   5.91     0        5.17
+ 9 Clostridium        4.88    2.14   2.52     0.515    3.40
+10 Verrucomicrobium   1.15    4.73   2.91     0.0320   2.27
+# ℹ 96 more rows
+# ℹ Use `print(n = ...)` to see more rows
+
+
+# Read data from Excel
+tax_table <- read_excel("/mnt/d/2024_16S_VictorBustamante/kraken2_classification/Book1.xlsx", sheet = "Sheet1")
+
+# Pivot the data to long format
+tax_table_long <- pivot_longer(tax_table, cols = -Taxa, names_to = "Sample", values_to = "Value")
+
+# Create the Stacked Bar Chart
+ggplot(tax_table_long, aes(x = Sample, y = Value, fill = Taxa)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Stacked Bar Chart de Taxonomía",
+       x = "Sitio",
+       y = "Valor",
+       fill = "Taxa") +
+  guides(fill = guide_legend(title = "Taxa"))
+
+#guardar el gráfico como un archivo PDF y como un archivo TIFF
+ggsave("./grafico.pdf", plot = last_plot(), device = "pdf", width = 15, height = 10)
+# Guardar el gráfico como un archivo TIFF
+ggsave("ruta/a/tu/grafico.tiff", plot = last_plot(), device = "tiff", width = 14, height = 7)
+
+
+#Si se necesita otra paleta de colores entonces así:
+
+# Install and load the 'viridis' package
+install.packages("viridis")
+library(viridis)
+
+# Create the Stacked Bar Chart with the 'viridis' color scale
+ggplot(tax_table_long, aes(x = Sample, y = Value, fill = Taxa)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis(discrete = TRUE) +  # Utiliza la paleta 'viridis'
+  theme_minimal() +
+  labs(title = "Stacked Bar Chart de Taxonomía",
+       x = "Sitio",
+       y = "Valor",
+       fill = "Taxa") +
+  guides(fill = guide_legend(title = "Taxa"))
+
+============================================================================================================================
+
+Una de las áreas de interés de los investigadores del DIPM se centra en el conocimiento de las relaciones huésped-parásito 
+en infecciones causadas por protozoarios como Entamoeba histolytica, Giardia lamblia, Trichomonas vaginalis, Leishmania sp., 
+Trypanosoma sp., Plasmodium sp., Acanthamoeba castellanii
+============================================================================================================================
