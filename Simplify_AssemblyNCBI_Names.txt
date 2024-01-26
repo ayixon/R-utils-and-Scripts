@@ -1,0 +1,5 @@
+Script para simplificar nombres de ensambles descargados desde el NCBI:
+
+for f in ./*; do
+    mv "$f" "${f%.*}n.fna"
+done
