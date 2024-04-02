@@ -28,3 +28,9 @@ export QT_QPA_PLATFORM=offscreen
 --------------------------------
 everything worked.
 
+--------------------------------
+
+**Descargar genomas desde NCBI a partir de una lista de Accession**
+   
+    datasets download genome accession --inputfile Accessions.txt
+
