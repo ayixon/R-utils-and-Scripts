@@ -34,3 +34,15 @@ everything worked.
    
     datasets download genome accession --inputfile Accessions.txt
 
+-------------------------------------------------------------------
+
+**Full installation of bPTP on WSL2**
+
+      conda create -n bptp python=3.6
+   
+      conda activate bptp
+   
+      mamba install -c bfurneaux bptp
+   
+      Test: bPTP.py -t trimal-PhyML_treeLGmodel -o test -s 1234 -i 1000
+
